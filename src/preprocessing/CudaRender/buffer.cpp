@@ -117,7 +117,9 @@ void FrameBuffer::Initialize(int rows, int cols) {
 void FrameBuffer::ClearBuffer() {
 	cudaMemset(d_z, 0, sizeof(int) * row * col);
 	cudaMemset(d_depth, 0, sizeof(float) * row * col);
-	cudaMemset(d_findices, 0, sizeof(int) * row * col);
+	//cudaMemset(d_findices, 0, sizeof(int) * row * col);
+	std::vector<int> findices(row * col, -1);
+	cudaMemcpy(d_findices, findices.data(), sizeof(int) * row * col, cudaMemcpyHostToDevice);
 	cudaMemset(d_vweights, 0, sizeof(glm::vec3) * row * col);
 	cudaMemset(d_vindices, 0, sizeof(glm::ivec3) * row * col);
 	cudaMemset(d_colors, 0, sizeof(int) * row * col);
