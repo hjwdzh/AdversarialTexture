@@ -42,9 +42,9 @@ def LoadDataByID(root, index):
     depth_src = np.load(depth_src_img)['arr_0']
     mask_src = cv2.imread(mask_src_img,cv2.IMREAD_UNCHANGED) / 255.0
     world2cam = np.loadtxt(pose)
-    return color_src.astype('float32'), uv_src.astype('float32'), depth_src.astype('float32'), mask_src.astype('float32'), world2cam.astype('float32')
-    #dictionary[index] = (color_src.astype('float32'), uv_src.astype('float32'), depth_src.astype('float32'), mask_src.astype('float32'), world2cam.astype('float32'))
-    #return dictionary[index]
+    return color_src.astype('float32'), uv_src.astype('float32'),\
+        depth_src.astype('float32'), mask_src.astype('float32'),\
+        world2cam.astype('float32')
 
 def LoadChunk(filename):
     global cached, dictionary
@@ -59,12 +59,13 @@ def LoadChunk(filename):
     index = int(filename[-15:-10])
     root = filename[:-16]
 
-    color_src, uv_src, depth_src, mask_src, world2cam_src = LoadDataByID(root, index)
+    color_src, uv_src, depth_src, mask_src, world2cam_src\
+        = LoadDataByID(root, index)
 
     rindex = random.choice(view_pairs[index])
-    #rindex = index
     if rindex != index:
-        color_tar, uv_tar, depth_tar, mask_tar, world2cam_tar = LoadDataByID(root, rindex)
+        color_tar, uv_tar, depth_tar, mask_tar, world2cam_tar\
+            = LoadDataByID(root, rindex)
         
         cam2world_src = np.linalg.inv(world2cam_src)
         src2tar = np.transpose(np.dot(world2cam_tar, cam2world_src))
@@ -96,11 +97,16 @@ def LoadChunk(filename):
         ly = np.floor(y).astype('float32')
         rx = (lx + 1).astype('float32')
         ry = (ly + 1).astype('float32')
-        sample_z1 = np.abs(z_tar - cv2.remap(depth_tar, lx, ly, cv2.INTER_NEAREST))
-        sample_z2 = np.abs(z_tar - cv2.remap(depth_tar, lx, ry, cv2.INTER_NEAREST))
-        sample_z3 = np.abs(z_tar - cv2.remap(depth_tar, rx, ly, cv2.INTER_NEAREST))
-        sample_z4 = np.abs(z_tar - cv2.remap(depth_tar, rx, ry, cv2.INTER_NEAREST))
-        mask2 = np.minimum(np.minimum(sample_z1, sample_z2), np.minimum(sample_z3, sample_z4)) > 0.1
+        sample_z1 = np.abs(z_tar\
+            - cv2.remap(depth_tar, lx, ly, cv2.INTER_NEAREST))
+        sample_z2 = np.abs(z_tar\
+            - cv2.remap(depth_tar, lx, ry, cv2.INTER_NEAREST))
+        sample_z3 = np.abs(z_tar\
+            - cv2.remap(depth_tar, rx, ly, cv2.INTER_NEAREST))
+        sample_z4 = np.abs(z_tar\
+            - cv2.remap(depth_tar, rx, ry, cv2.INTER_NEAREST))
+        mask2 = np.minimum(np.minimum(sample_z1, sample_z2),\
+            np.minimum(sample_z3, sample_z4)) > 0.1
 
         mask_remap = (1 - (mask0 + mask1 + mask2 > 0)).astype('float32')
 
@@ -108,7 +114,8 @@ def LoadChunk(filename):
         map_y = y.astype('float32')
 
         color_tar_to_src = cv2.remap(color_tar, map_x, map_y, cv2.INTER_LINEAR)
-        mask = (cv2.remap(mask_tar, map_x, map_y, cv2.INTER_LINEAR) > 0.99) * mask_remap
+        mask = (cv2.remap(mask_tar, map_x, map_y, cv2.INTER_LINEAR) > 0.99)\
+            * mask_remap
         for j in range(3):
             color_tar_to_src[:,:,j] *= mask
 
@@ -127,10 +134,12 @@ def LoadChunk(filename):
         color_tar_to_src[:,:,i] *= mask
 
     if cached:
-        dictionary[fn] = (color_src, color_tar_to_src, uv_src, np.reshape(mask,(mask.shape[0],mask.shape[1],1)))
+        dictionary[fn] = (color_src, color_tar_to_src, uv_src,\
+            np.reshape(mask,(mask.shape[0],mask.shape[1],1)))
         return dictionary[fn]
 
-    return color_src, color_tar_to_src, uv_src, np.reshape(mask,(mask.shape[0],mask.shape[1],1))
+    return color_src, color_tar_to_src, uv_src,\
+        np.reshape(mask,(mask.shape[0],mask.shape[1],1))
 
 def create_dataset(parent_dir, texture_name, Cache=False):
     print(texture_name)
@@ -140,7 +149,7 @@ def create_dataset(parent_dir, texture_name, Cache=False):
     cached = Cache
     tex_dim_height = p.shape[0]
     tex_dim_width = p.shape[1]
-    print('load example...')
+
     if parent_dir is None or not os.path.exists(parent_dir):
         raise Exception("input_dir does not exist")
 
@@ -160,7 +169,7 @@ def create_dataset(parent_dir, texture_name, Cache=False):
 
     intrinsic = np.loadtxt(parent_dir + '/intrinsic.txt')
     intrinsic = np.reshape(intrinsic, [16])
-    print('create dataset...')
+
     #color_paths = color_paths[:1]
     dataset = tf.data.Dataset.from_tensor_slices(color_paths)
 
@@ -184,4 +193,5 @@ def create_dataset(parent_dir, texture_name, Cache=False):
     uv_src.set_shape([1,IMAGE_HEIGHT,IMAGE_WIDTH,2])
     mask.set_shape([1,IMAGE_HEIGHT,IMAGE_WIDTH,1])
 
-    return Dataset(color_src=color_src, color_tar=color_tar, uv_src=uv_src, mask=mask)
+    return Dataset(color_src=color_src,\
+        color_tar=color_tar, uv_src=uv_src, mask=mask)

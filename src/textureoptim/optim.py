@@ -19,13 +19,13 @@ from dataset import *
 from model import *
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--input_dir", help="path to folder containing images")
-parser.add_argument("--output_dir", help="path to folder containing images")
-parser.add_argument("--gan_weight", default=1.0, type=float,help="path to folder containing images")
-parser.add_argument("--l1_weight", default=10.0, type=float,help="path to folder containing images")
-parser.add_argument("--lr_G", type=float, default=1e-3, help="initial learning rate for adam")
-parser.add_argument("--lr_D", type=float, default=1e-4, help="initial learning rate for adam")
-parser.add_argument("--beta1", type=float, default=0.5, help="momentum term of adam")
+parser.add_argument("--input_dir", type=str)
+parser.add_argument("--output_dir", type=str)
+parser.add_argument("--gan_weight", default=1.0, type=float)
+parser.add_argument("--l1_weight", default=10.0, type=float)
+parser.add_argument("--lr_G", type=float, default=1e-3)
+parser.add_argument("--lr_D", type=float, default=1e-4)
+parser.add_argument("--beta1", type=float, default=0.5)
 parser.add_argument("--initialized", type=int, default=1, help="")
 
 a = parser.parse_args()
@@ -62,10 +62,16 @@ for step in range(max_steps):
     results = sess.run(fetches)
 
     if step % 100 == 0:
-        cv2.imwrite('%s/%06d.png'%(a.output_dir,step//100), (np.clip(results['outputs'][0] * 0.5 + 0.5,0,1) * 255).astype('uint8'))
+        cv2.imwrite('%s/%06d.png'%(a.output_dir,step//100),\
+            (np.clip(results['outputs'][0] * 0.5 + 0.5,0,1)\
+                * 255).astype('uint8'))
 
     if step % 10 == 0:
-        print('iter=%d, lossL1=%.4f lossG=%.4f lossD=%.4f'%(results["global_step"], results['lossL1'], results['lossG'], results['lossD']))
+        print('iter=%d, lossL1=%.4f lossG=%.4f lossD=%.4f'%\
+            (results["global_step"], results['lossL1'],\
+            results['lossG'], results['lossD']))
 
     if step == max_steps - 1:
-        cv2.imwrite('%s/%s.png'%(a.output_dir,filename), (np.clip(results['outputs'][0] * 0.5 + 0.5,0,1) * 255).astype('uint8'))
+        cv2.imwrite('%s/%s.png'%(a.output_dir,filename),\
+            (np.clip(results['outputs'][0] * 0.5 + 0.5,0,1)\
+                * 255).astype('uint8'))
