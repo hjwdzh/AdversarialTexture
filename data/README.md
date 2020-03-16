@@ -12,3 +12,9 @@ cd shape
 wget -i shapelist.txt
 ```
 
+### Preprocessed optimization data
+```
+cd ObjectScan_video
+wget -i chairlist.txt
+```
+

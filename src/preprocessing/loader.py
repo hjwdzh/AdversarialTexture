@@ -15,7 +15,8 @@ def LoadSens(filename):
 	cam2worlds = np.zeros((frames, 4, 4), dtype='float32')
 	intrinsic = np.zeros((4,4), dtype='float32')
 
-	Sens.GetData(c_void_p(depths.ctypes.data), c_void_p(colors.ctypes.data), c_void_p(cam2worlds.ctypes.data), c_void_p(intrinsic.ctypes.data))
+	Sens.GetData(c_void_p(depths.ctypes.data), c_void_p(colors.ctypes.data),\
+		c_void_p(cam2worlds.ctypes.data), c_void_p(intrinsic.ctypes.data))
 	Sens.Clear()
 	depths = np.nan_to_num(depths)
 	return colors, depths, cam2worlds, intrinsic

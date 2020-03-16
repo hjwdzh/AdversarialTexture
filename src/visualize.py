@@ -19,7 +19,7 @@ views = {'chair00':0, 'chair01':60, 'chair02':0, 'chair03':0, 'chair04':120,
 
 
 for s in shapes:
-	our_texture = cv2.imread(data_path + '/result/' + s + '/000040.png')
+	our_texture = cv2.imread(data_path + '/result/' + s + '/' + s + '.png')
 	l2_texture = cv2.imread(data_path + '/shape/' + s + '.png')
 
 	if not s in views:
