@@ -22,7 +22,7 @@ sh run_all.sh
 ### Result Visualization
 The result will be stored in data/result/chairID/chairID.png. You can use them to replace the corresponding default texture in data/shape, and use meshlab to open obj files to see the results.
 
-Alternatively, we provide a simple script to render results.
+Alternatively, we provide a simple script to render results. You will be able to see the rendering comparison in data/visual.
 ```
 cd src
 python visualize.py
