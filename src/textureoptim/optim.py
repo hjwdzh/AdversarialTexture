@@ -43,7 +43,7 @@ else:
     model = create_model(dataset,a.lr_D,a.lr_G,a.beta1,None)
 
 logdir = a.output_dir
-max_steps = 1
+max_steps = 4001
 
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())

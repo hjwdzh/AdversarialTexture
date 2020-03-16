@@ -97,7 +97,6 @@ painter.PaintToTexturemap(original_texture, point_colors, coords)
 
 sio.imsave(data_path + '/ObjectScan_video/%s/texture.png'%(sys.argv[1]), original_texture)
 np.savetxt(data_path + '/ObjectScan_video/%s/intrinsic.txt'%(sys.argv[1]), intrinsic)
-exit(0)
 
 context = SetMesh(V, F)
 
@@ -117,9 +116,9 @@ for i in range(colors.shape[0]):
 			uv_ind = VT[vind][:,:,j]
 			uv[:,:,j] += vweights[:,:,k] * uv_ind
 
-	mask0 = ((np.abs(depth - depths[i]*1e-3) < 0.05) * (depths[i] > 0)).astype('uint8')
+	#mask0 = ((np.abs(depth - depths[i]*1e-3) < 0.05) * (depths[i] > 0)).astype('uint8')
 
-	mask = (findices != -1) * mask0
+	mask = (findices != -1)# * mask0
 
 	style = cv2.resize(colors[i], (depths[i].shape[1], depths[i].shape[0]), interpolation=cv2.INTER_LINEAR)
 	for j in range(3):
