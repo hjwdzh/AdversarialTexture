@@ -27,3 +27,14 @@ Alternatively, we provide a simple script to render results. You will be able to
 cd src
 python visualize.py
 ```
+
+**IMPORTANT**: If you use this code please cite the following in any resulting publication:
+```
+@article{huang2020adversarial,
+  title={Adversarial Texture Optimization from RGB-D Scans},
+  author={Huang, Jingwei and Thies, Justus and Dai, Angela and Kundu, Abhijit and Jiang, Chiyu Max and Guibas, Leonidas and Nie{\ss}ner, Matthias and Funkhouser, Thomas},
+  journal={arXiv preprint arXiv:2003.08400},
+  year={2020}
+}
+```
+The rendering process is a modification of [**pyRender**](https://github.com/hjwdzh/pyRender).
