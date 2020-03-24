@@ -28,6 +28,11 @@ cd src
 python visualize.py
 ```
 
+## Authors
+- [Jingwei Huang](mailto:jingweih@stanford.edu)
+
+&copy; Jingwei Huang, Stanford University
+
 **IMPORTANT**: If you use this code please cite the following in any resulting publication:
 ```
 @article{huang2020adversarial,
