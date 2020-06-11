@@ -35,10 +35,11 @@ python visualize.py
 
 **IMPORTANT**: If you use this code please cite the following in any resulting publication:
 ```
-@article{huang2020adversarial,
+@inproceedings{huang2020adversarial,
   title={Adversarial Texture Optimization from RGB-D Scans},
-  author={Huang, Jingwei and Thies, Justus and Dai, Angela and Kundu, Abhijit and Jiang, Chiyu Max and Guibas, Leonidas and Nie{\ss}ner, Matthias and Funkhouser, Thomas},
-  journal={arXiv preprint arXiv:2003.08400},
+  author={Huang, Jingwei and Thies, Justus and Dai, Angela and Kundu, Abhijit and Jiang, Chiyu and Guibas, Leonidas J and Niessner, Matthias and Funkhouser, Thomas},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={1559--1568},
   year={2020}
 }
 ```
