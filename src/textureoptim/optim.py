@@ -32,7 +32,7 @@ a = parser.parse_args()
 
 filename = a.input_dir.split('/')[-1]
 initial_file = a.input_dir + '/texture.png'
-dataset = create_dataset(a.input_dir, initial_file, Cache=True)
+dataset = create_dataset(a.input_dir, initial_file, Cache=False)
 
 if not os.path.exists(a.output_dir):
     os.mkdir(a.output_dir)
